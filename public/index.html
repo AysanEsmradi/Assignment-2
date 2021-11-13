@@ -1,0 +1,278 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Survey</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="//www.amcharts.com/lib/4/core.js"></script>
+    <script src="//www.amcharts.com/lib/4/charts.js"></script>
+    <script src="//www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/kelly.js"></script>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline is-vcentered">
+                <div class="column is-half">
+                    <h1 class="title">
+                        <span style="color:rgb(15, 15, 15) ;">Covid-19 vaccination survey</span>
+                    </h1>
+                    <hr>
+                    <p class="subtitle" style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">
+                        <small> It’s been more than year since an outbreak of a new strain of <strong>coronavirus</strong> was first reported in Wuhan, China. Declared a pandemic by the World Health Organization in March, 2020, it has now infected more than 200
+                        million people worldwide. To control the spread of the coronavirus, Governments have taken precautionary measures, and <strong>Hong Kong</strong> has been one of the most successful countries in controlling the disease. To safeguard
+                        public health and to allow the resuming of normal activities of society gradually, the Government implemented a territory-wide COVID-19 Vaccination Programme free of charge for all Hong Kong residents. Take part in the survey below to find out the results of vaccinations in Hong Kong.</small>
+                    </p>
+                    <form class="column" action="/bookings" method="POST" onsubmit="postData(this);return false;">
+                        <div class="field ">
+                            <label class="label ">Name</label>
+                            <div class="control ">
+                                <input name="name " required class="input " type="text " placeholder="Enter your name " required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <label class="radio">
+                                <label required><strong>Gender</strong></label>
+                                <br><br>
+                                <input type="radio" name="gender" value="Male"> Male
+                                </label>
+                                <label class="radio">
+                                <input type="radio" name="gender" value="Female">
+                                Female  
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <label class="label ">Age</label>
+                            <div class="control ">
+                                <div class="select ">
+                                    <select name="age " required required>
+                                    <option value=" ">Select your age here</option>
+                                    <option value="Aged1 ">Aged 12-19</option>
+                                    <option value="Aged2 ">Aged 20-29</option>
+                                    <option value="Aged3 ">Aged 30-39</option>
+                                    <option value="Aged4 ">Aged 40-49</option>
+                                    <option value="Aged5 ">Aged 50-59</option>
+                                    <option value="Aged6 ">Aged 60-69</option>
+                                    <option value="Aged7">Aged 70-79</option>
+                                    <option value="Aged8">Aged 80 and above</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <label class="label ">Vaccine Type</label>
+                            <div class="control ">
+                                <div class="select ">
+                                    <select name="type " required required>
+                                    <option value=" ">Select your Vaccine Type here</option>
+                                    <option value="sinovac">CoronaVac (Sinovac)</option>
+                                    <option value="biontech">Comirnaty (BioNTech)</option>
+                                    <option value="others">Others</option>
+    	                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <label class="label ">Vaccine Venue</label>
+                            <div class="control ">
+                                <div class="select ">
+                                    <select name="venue " required required>
+                                    <option value=" ">Select your vaccine venue here</option>
+                                    <option value="CVC ">Community Vaccination Centers</option>
+                                    <option value="GOPC ">General Outpatient Clinics</option>
+                                    <option value="GP">Private Doctors or Clinics</option>
+                                    <option value="Others">Others</option>
+    	                        </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field ">
+                            <label class="label"><small>If you wish, write down your reasons if you have not been vaccinated</small></label>
+                            <div class="control" style="box-sizing: border-box; ">
+                                <textarea name="message" class="textarea" placeholder="Textarea" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button type="submit" class="button is-link ">Submit</button>
+                            </div>
+                            <div class="control">
+                                <button type="reset" class="button is-link is-light">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="column is-half ">
+                    <canvas id="myChart3"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline is-vcentered">
+                <div class="column is-half">
+                    <canvas id="myChart1"></canvas>
+                </div>
+                <div class="column is-half">
+                    <div id="chartdiv" style="width:45vw; height:50vh;"></div>
+                    <script>
+                        am4core.useTheme(am4themes_animated);
+                        var chart = am4core.createFromConfig({
+                            "data": [{
+                                "country": "12-19",
+                                "litres": 501
+                            }, {
+                                "country": "20-29",
+                                "litres": 301
+                            }, {
+                                "country": "30-39",
+                                "litres": 201
+                            }, {
+                                "country": "40-49",
+                                "litres": 165
+                            }, {
+                                "country": "50-59",
+                                "litres": 139
+                            }, {
+                                "country": "60-69",
+                                "litres": 128
+                            }, {
+                                "country": "70-79",
+                                "litres": 99
+                            }, {
+                                "country": "abobe 80",
+                                "litres": 60
+                            }],
+                            "xAxes": [{
+                                "type": "CategoryAxis",
+                                "dataFields": {
+                                    "category": "country",
+                                    "title": {
+                                        "text": "Age"
+                                    }
+                                }
+                            }],
+                            "yAxes": [{
+                                "type": "ValueAxis",
+                                "title": {
+                                    "text": "Venue"
+                                }
+                            }],
+                            "series": [{
+                                "type": "ColumnSeries",
+                                "dataFields": {
+                                    "valueY": "litres",
+                                    "categoryX": "country"
+                                },
+                                "columns": {
+                                    "tooltipText": "Category: {categoryX}\nValue: {valueY}",
+                                    "fill": "#567a2a"
+                                }
+                            }]
+
+                        }, "chartdiv", am4charts.XYChart);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <script src="./myChart.js"></script>
+    <script src="./mychart1.js"></script> -->
+    <script>
+        async function postData(elem) {
+            var response = await fetch('localhost:3000/calculation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(elem)
+            });
+            if (response.ok) {
+                var data = await response.json();
+                var gender = data.gender;
+                var age = data.age;
+                var type = data.type;
+                var venue = data.venue;
+
+                piechart(type);
+                horbarchart(venue);
+                XYchart(age, venue);
+                //alert(JSON.stringify(data));
+            } else {
+                alert(response.status + " " + response.statusCode);
+            }
+        };
+
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/x-www-form-urlencoded',
+        //         },
+        //         body: ""
+        //     });
+
+        // console.log(response);
+
+        // if (response.ok) {
+        //     var data = await response.json();
+        //     alert(JSON.stringify(data));
+        // } else {
+        //     alert(response.status + " " + response.statusCode);
+        // }
+
+        function piechart(type) {
+            const labels = ["CoronaVac (Sinovac)", "Comirnaty (BioNTech)", "Others"]
+            const data = type;
+            labels: labels;
+            datasets: [{
+                axis: 'y',
+                data: typenpm,
+                fill: false,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }];
+            const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Chart of types of vaccines',
+                            font: {
+                                size: 24
+                            },
+                            padding: 20
+                        },
+                        legend: {
+                            display: true
+                        }
+                    },
+                    radius: "90%"
+                }
+            };
+            var myChart = new Chart(
+                document.getElementById('myChart3'),
+                config
+            );
+        };
+        piechart();
+    </script>
+
+
+</body>
+
+</html>
